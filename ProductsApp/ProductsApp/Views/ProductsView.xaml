@@ -7,6 +7,9 @@
     x:Class="ProductsApp.Views.ProductsView"
     xmlns:vm="clr-namespace:ProductsApp.ViewModels" xmlns:models="clr-namespace:ProductsApp.Models"
     x:DataType="vm:ProductsViewModel">
+    <mvvm:ViewBase.ToolbarItems>
+        <ToolbarItem Text="Salir" Command="{Binding LogoutCommand}"/>
+    </mvvm:ViewBase.ToolbarItems>
     <mvvm:ViewBase.Content>
         <StackLayout>
             <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">

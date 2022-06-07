@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MonkeyCache;
 using ProductsApp.Interfaces;
 using ProductsApp.Models;
+using ProductsApp.Views;
 using TinyMvvm;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials.Interfaces;
@@ -16,6 +17,7 @@ namespace ProductsApp.ViewModels
 		readonly IProductFakeApi _productFakeApi;
         readonly IConnectivity _connectivity;
         readonly IBarrel _barrel;
+        readonly INavigationHelper _navigationHelper;
 
         ObservableCollection<Product> _products = new();
         public ObservableCollection<Product> Products
@@ -24,12 +26,16 @@ namespace ProductsApp.ViewModels
             set => Set(ref _products, value);
         }
 
-        public ProductsViewModel(IProductFakeApi productFakeApi, IConnectivity connectivity, IBarrel barrel)
+        public ProductsViewModel(IProductFakeApi productFakeApi,
+            IConnectivity connectivity,
+            IBarrel barrel,
+            INavigationHelper navigationHelper)
 		{
             _barrel = barrel;
             _connectivity = connectivity;
 			_productFakeApi = productFakeApi;
-		}
+            _navigationHelper = navigationHelper;
+        }
 
         public async override Task Initialize()
         {
@@ -38,6 +44,7 @@ namespace ProductsApp.ViewModels
         }
 
         public IAsyncCommand RefreshCommand => new AsyncCommand(LoadProducts, (_) => !IsBusy, allowsMultipleExecutions: false);
+        public IAsyncCommand LogoutCommand => new AsyncCommand(Logout, (_) => !IsBusy, allowsMultipleExecutions: false);
 
         async Task LoadProducts()
         {
@@ -52,6 +59,12 @@ namespace ProductsApp.ViewModels
                 Products = new(_barrel.Get<List<Product>>(nameof(Product)));
 
             IsBusy = false;
+        }
+
+        Task Logout()
+        {
+            _navigationHelper.SetRootView(nameof(LoginView));
+            return Task.CompletedTask;
         }
     }
 }
