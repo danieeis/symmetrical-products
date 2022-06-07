@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<mvvm:ViewBase
+    x:TypeArguments="vm:LoginViewModel"
+    xmlns:mvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:ProductsApp.ViewModels"
+    x:Class="ProductsApp.Views.LoginView"
+    x:DataType="vm:LoginViewModel">
+    <mvvm:ViewBase.Content>
+        <StackLayout>
+            <ScrollView>
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <StackLayout.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Color="{DynamicResource PrimaryHexColor}"
+                          Offset="0.4" />
+                            <GradientStop Color="Black"
+                          Offset="0.4" />
+                            <GradientStop Color="White"
+                          Offset="0.41" />
+                            <GradientStop Color="White"
+                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </StackLayout.Background>
+                    <Frame VerticalOptions="CenterAndExpand" Padding="20,30" Margin="40,20" BackgroundColor="{DynamicResource CardSurfaceColor}" CornerRadius="10" HasShadow="True">
+                        <StackLayout Spacing="10" Padding="10">
+                            <Image Source="https://res.cloudinary.com/yyelda/image/upload/v1654613040/other/undraw_enter_uhqk.png" Aspect="AspectFit" WidthRequest="160" HeightRequest="50" Margin="0,30,0,30"></Image>
+                            <Entry ReturnType="Next" Text="{Binding Username}"/>
+                            <Entry IsPassword="true" Text="{Binding Password}" ReturnType="Done" ReturnCommand="{Binding LoginCommand}"/>
+                            <StackLayout Margin="0, 30, 0, 0">
+                                <Button HorizontalOptions="FillAndExpand" Text="Ingresar" Command="{Binding LoginCommand}"/>
+                                <Button HorizontalOptions="FillAndExpand" Text="Registrarse" Command="{Binding NavigateTo}" CommandParameter="RegisterView"/>
+                                <ActivityIndicator/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </mvvm:ViewBase.Content>
+</mvvm:ViewBase>
+
