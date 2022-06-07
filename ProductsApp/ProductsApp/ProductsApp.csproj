@@ -21,6 +21,9 @@
     <PackageReference Include="TinyMvvm.Autofac" Version="3.1.0" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.3.1" />
+    <PackageReference Include="MonkeyCache.SQLite" Version="1.6.3" />
+    <PackageReference Include="MonkeyCache" Version="1.6.3" />
+    <PackageReference Include="Refit.Newtonsoft.Json" Version="6.3.2" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
@@ -31,11 +34,16 @@
     <None Remove="TinyMvvm.Autofac" />
     <None Remove="Xamarin.CommunityToolkit" />
     <None Remove="Xamarin.Essentials.Interfaces" />
+    <None Remove="MonkeyCache.SQLite" />
+    <None Remove="MonkeyCache" />
+    <None Remove="Refit.Newtonsoft.Json" />
+    <None Remove="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 </Project>

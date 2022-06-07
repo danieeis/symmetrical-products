@@ -1,10 +1,18 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using Autofac;
+using MonkeyCache;
+using MonkeyCache.SQLite;
+using Newtonsoft.Json;
+using ProductsApp.Interfaces;
+using Refit;
 using TinyMvvm;
 using TinyMvvm.Autofac;
 using TinyMvvm.Forms;
 using TinyMvvm.IoC;
+using Xamarin.Essentials.Implementation;
+using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
 namespace ProductsApp.Services
@@ -23,13 +31,25 @@ namespace ProductsApp.Services
             navigationHelper.RegisterViewsInAssembly(currentAssembly);
             var containerBuilder = new ContainerBuilder();
 
+            string barrelPath = Device.RuntimePlatform switch
+            {
+                Device.iOS => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "..", "Library", "Databases"),
+                Device.Android => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..", "databases"),
+                _ => throw new NotSupportedException()
+            };
+
+            Barrel.ApplicationId = "com.danieeis.apps.oisproducts";
+            BarrelUtils.SetBaseCachePath(barrelPath);
+            Barrel.Current.AutoExpire = true;
+            containerBuilder.RegisterInstance(Barrel.Current);
+
             containerBuilder.RegisterInstance<INavigationHelper>(navigationHelper);
 
 
-            //containerBuilder.RegisterType<PreferencesImplementation>().As<IPreferences>().SingleInstance();
-            //containerBuilder.RegisterType<SecureStorageImplementation>().As<ISecureStorage>().SingleInstance();
-            //containerBuilder.RegisterType<MainThreadImplementation>().As<IMainThread>().SingleInstance();
-            //containerBuilder.RegisterType<ConnectivityImplementation>().As<IConnectivity>().SingleInstance();
+            containerBuilder.RegisterType<PreferencesImplementation>().As<IPreferences>().SingleInstance();
+            containerBuilder.RegisterType<SecureStorageImplementation>().As<ISecureStorage>().SingleInstance();
+            containerBuilder.RegisterType<MainThreadImplementation>().As<IMainThread>().SingleInstance();
+            containerBuilder.RegisterType<ConnectivityImplementation>().As<IConnectivity>().SingleInstance();
 
             containerBuilder.RegisterType<App>().AsSelf().SingleInstance();
 
@@ -43,6 +63,10 @@ namespace ProductsApp.Services
             var viewModelAssembly = typeof(ProductsApp.ViewModels.LoginViewModel).GetTypeInfo().Assembly;
 
             navigationHelper.InitViewModelNavigation(viewModelAssembly);
+
+            IProductFakeApi productApiClient = RestService.For<IProductFakeApi>("https://fakestoreapi.com", new(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings())));
+
+            containerBuilder.RegisterInstance(productApiClient).SingleInstance();
 
             var container = containerBuilder.Build();
 

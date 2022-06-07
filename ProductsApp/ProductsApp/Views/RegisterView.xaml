@@ -8,27 +8,26 @@
     xmlns:vm="clr-namespace:ProductsApp.ViewModels"
     x:DataType="vm:RegisterViewModel">
     <mvvm:ViewBase.Content>
-        <StackLayout>
             <ScrollView>
                 <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <StackLayout.Background>
                         <LinearGradientBrush EndPoint="0,1">
                             <GradientStop Color="{DynamicResource PrimaryHexColor}"
-                          Offset="0.4" />
+                          Offset="0.5" />
                             <GradientStop Color="Black"
-                          Offset="0.4" />
+                          Offset="0.51" />
                             <GradientStop Color="White"
-                          Offset="0.41" />
+                          Offset="0.51" />
                             <GradientStop Color="White"
                           Offset="1.0" />
                         </LinearGradientBrush>
                     </StackLayout.Background>
                     <Frame VerticalOptions="CenterAndExpand" Padding="20,30" Margin="40,20" BackgroundColor="{DynamicResource CardSurfaceColor}" CornerRadius="10" HasShadow="True">
                         <StackLayout Spacing="10" Padding="10">
-                            <Image Source="https://res.cloudinary.com/yyelda/image/upload/v1654613040/other/undraw_enter_uhqk.png" Aspect="AspectFit" WidthRequest="160" HeightRequest="50" Margin="0,30,0,30"></Image>
-                            <Entry ReturnType="Next" Text="{Binding Username}"/>
-                            <Entry IsPassword="true" Text="{Binding Password}" ReturnType="Next"/>
-                            <Entry IsPassword="true" Text="{Binding ConfirmPassword}" ReturnType="Done" ReturnCommand="{Binding RegisterCommand}"/>
+                            <Image Source="https://res.cloudinary.com/yyelda/image/upload/v1654613040/other/undraw_enter_uhqk.png" Aspect="AspectFit" WidthRequest="200" Margin="0,30,0,30"></Image>
+                            <Entry ReturnType="Next" Text="{Binding Username}" Placeholder="Nombre de usuario"/>
+                            <Entry IsPassword="true" Text="{Binding Password}" ReturnType="Next" Placeholder="Contraseña"/>
+                            <Entry IsPassword="true" Text="{Binding ConfirmPassword}" ReturnType="Done" ReturnCommand="{Binding RegisterCommand}" Placeholder="Confirme la contraseña"/>
                             <StackLayout Margin="0, 30, 0, 0">
                                 <Button HorizontalOptions="FillAndExpand" Text="Registrarse" Command="{Binding RegisterCommand}"/>
                                 <Button HorizontalOptions="FillAndExpand" Text="Iniciar Sesión" Command="{Binding NavigateTo}" CommandParameter="LoginView"/>
@@ -38,7 +37,6 @@
                     </Frame>
                 </StackLayout>
             </ScrollView>
-        </StackLayout>
     </mvvm:ViewBase.Content>
 </mvvm:ViewBase>
 
