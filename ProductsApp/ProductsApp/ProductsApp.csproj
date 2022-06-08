@@ -24,6 +24,8 @@
     <PackageReference Include="MonkeyCache.SQLite" Version="1.6.3" />
     <PackageReference Include="MonkeyCache" Version="1.6.3" />
     <PackageReference Include="Refit.Newtonsoft.Json" Version="6.3.2" />
+    <PackageReference Include="fusillade" Version="2.4.1" />
+    <PackageReference Include="Refit" Version="6.3.2" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
@@ -38,6 +40,10 @@
     <None Remove="MonkeyCache" />
     <None Remove="Refit.Newtonsoft.Json" />
     <None Remove="Interfaces\" />
+    <None Remove="Polly" />
+    <None Remove="fusillade" />
+    <None Remove="Refit" />
+    <None Remove="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -45,5 +51,6 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
 </Project>

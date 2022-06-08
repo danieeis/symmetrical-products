@@ -5,22 +5,41 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="ProductsApp.Views.ProductsView"
-    xmlns:vm="clr-namespace:ProductsApp.ViewModels" xmlns:models="clr-namespace:ProductsApp.Models"
-    x:DataType="vm:ProductsViewModel">
+    xmlns:vm="clr-namespace:ProductsApp.ViewModels"
+    xmlns:models="clr-namespace:ProductsApp.Models"
+    xmlns:converters="clr-namespace:ProductsApp.Converters"
+    x:DataType="vm:ProductsViewModel"
+    Title="Products">
+    <mvvm:ViewBase.Resources>
+        <converters:RatingStarVisibleConverter x:Key="RatingStarVisible"/>
+    </mvvm:ViewBase.Resources>
     <mvvm:ViewBase.ToolbarItems>
         <ToolbarItem Text="Salir" Command="{Binding LogoutCommand}"/>
     </mvvm:ViewBase.ToolbarItems>
     <mvvm:ViewBase.Content>
         <StackLayout>
-            <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
-                <CollectionView ItemsSource="{Binding Products}">
+            <RefreshView RefreshColor="{DynamicResource PrimaryHexColor}" IsRefreshing="{Binding IsRefreshing}" Command="{Binding LoadProductsCommand}">
+                <CollectionView ItemsSource="{Binding Products}" ItemSizingStrategy="MeasureFirstItem" ItemsUpdatingScrollMode="KeepItemsInView">
+                    <CollectionView.EmptyView>
+                        <StackLayout IsVisible="{Binding IsNotBusy}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Image HorizontalOptions="Center" Source="https://res.cloudinary.com/yyelda/image/upload/v1654650218/other/undraw_Empty_re_opql.png"/>
+                            <Label HorizontalTextAlignment="Center" Text="No se cargaron los productos, necesita conexión a internet"/>
+                            <Button Text="Reintentar" Command="{Binding LoadProductsCommand}"/>
+                        </StackLayout>
+                    </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Product">
-                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="*,*" Padding="10">
-                                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding Image}" WidthRequest="100" Aspect="AspectFit"/>
-                                <Label Grid.Column="1" Grid.Row="0" Text="{Binding Title}"/>
-                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Category}"/>
-                                <Label Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"  Text="{Binding Price}" FontSize="Title"/>
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" Padding="10">
+                                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding Image}" HeightRequest="80" WidthRequest="80" Aspect="AspectFit"/>
+                                <Label Grid.Column="1" Grid.Row="0" Text="{Binding Title}" LineBreakMode="TailTruncation" MaxLines="2"/>
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Category}" FontSize="Caption"/>
+                                <Label Grid.Column="2" Grid.Row="0" Text="{Binding Price, StringFormat='{0} $'}" FontSize="Title"/>
+                                <Image IsVisible="{Binding Rating, Converter={StaticResource RatingStarVisible}}" Grid.Column="2" Grid.Row="1" WidthRequest="40" HeightRequest="40"
+                                    Source="https://res.cloudinary.com/yyelda/image/upload/v1654651488/other/star-svgrepo-com.png"
+                                    HorizontalOptions="End" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsViewModel}}, Path=ProductDetailCommand}" CommandParameter="{Binding .}"/>
+                                </Grid.GestureRecognizers>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

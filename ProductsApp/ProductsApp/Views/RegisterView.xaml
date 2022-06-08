@@ -31,7 +31,6 @@
                             <StackLayout Margin="0, 30, 0, 0">
                                 <Button HorizontalOptions="FillAndExpand" Text="Registrarse" Command="{Binding RegisterCommand}"/>
                                 <Button HorizontalOptions="FillAndExpand" Text="Iniciar Sesión" Command="{Binding NavigateTo}" CommandParameter="LoginView"/>
-                                <ActivityIndicator/>
                             </StackLayout>
                         </StackLayout>
                     </Frame>

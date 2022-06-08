@@ -8,7 +8,7 @@ namespace ProductsApp.Interfaces
 {
 	public interface IProductFakeApi
 	{
-		[Get("https://fakestoreapi.com/products")]
+		[Get("/products")]
 		Task<IEnumerable<Product>> Products();
 	}
 }

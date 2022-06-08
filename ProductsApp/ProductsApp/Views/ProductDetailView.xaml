@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<mvvm:ViewBase
+    x:TypeArguments="vm:ProductDetailViewModel"
+    xmlns:mvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ProductsApp.Views.ProductDetailView"
+    xmlns:vm="clr-namespace:ProductsApp.ViewModels"
+    x:DataType="vm:ProductDetailViewModel"
+    Title="{Binding Product.Title}">
+    <mvvm:ViewBase.Content>
+        <ScrollView>
+            <StackLayout Padding="10">
+                <Image Source="{Binding Product.Image}"/>
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                    <Label Grid.Column="0" Grid.Row="0" FontSize="Title" Text="{Binding Product.Title}"/>
+                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding Product.Category}" FontSize="Caption"/>
+
+                    <Frame Grid.Column="1" Grid.Row="0" HasShadow="False" BorderColor="Gray" CornerRadius="10" Padding="0" BackgroundColor="{DynamicResource CardSurfaceColor}">
+                        <StackLayout Padding="10" VerticalOptions="CenterAndExpand">
+                            <Label Text="{Binding Product.Rating.Rate}"/>
+                            <Image WidthRequest="20" HeightRequest="20" Source="https://res.cloudinary.com/yyelda/image/upload/v1654651488/other/star-svgrepo-com.png"/>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+                <Label Text="{Binding Product.Description}"/>
+                <Label Text="{Binding Product.Price, StringFormat='{0} $'}" FontSize="35" FontAttributes="Bold"/>
+            </StackLayout>
+        </ScrollView>
+    </mvvm:ViewBase.Content>
+</mvvm:ViewBase>
+

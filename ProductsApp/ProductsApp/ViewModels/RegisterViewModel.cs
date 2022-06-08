@@ -12,13 +12,15 @@ namespace ProductsApp.ViewModels
 	public class RegisterViewModel : ViewModelBase
 	{
 		readonly IBarrel _barrel;
+		readonly MessageService _messageService;
 
 		public string Username { get; set; }
 		public string Password { get; set; }
 		public string ConfirmPassword { get; set; }
 
-		public RegisterViewModel(IBarrel barrel)
+		public RegisterViewModel(IBarrel barrel, MessageService messageService)
 		{
+			_messageService = messageService;
 			_barrel = barrel;
 		}
 
@@ -37,6 +39,10 @@ namespace ProductsApp.ViewModels
 				var user = new User(Guid.NewGuid().ToString(), Username, passwordEncrypt);
 				_barrel.Add(Username, user, TimeSpan.MaxValue);
 				await Navigation.BackAsync();
+            }
+            else
+            {
+				_messageService.DisplayMessage("Mensaje", "Datos no válidos", "Aceptar");
 			}
 			IsBusy = false;
 		}

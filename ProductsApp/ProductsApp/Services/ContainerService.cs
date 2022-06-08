@@ -40,7 +40,6 @@ namespace ProductsApp.Services
 
             Barrel.ApplicationId = "com.danieeis.apps.oisproducts";
             BarrelUtils.SetBaseCachePath(barrelPath);
-            Barrel.Current.AutoExpire = true;
             containerBuilder.RegisterInstance(Barrel.Current);
 
             containerBuilder.RegisterInstance<INavigationHelper>(navigationHelper);
@@ -48,10 +47,11 @@ namespace ProductsApp.Services
 
             containerBuilder.RegisterType<PreferencesImplementation>().As<IPreferences>().SingleInstance();
             containerBuilder.RegisterType<SecureStorageImplementation>().As<ISecureStorage>().SingleInstance();
-            containerBuilder.RegisterType<MainThreadImplementation>().As<IMainThread>().SingleInstance();
             containerBuilder.RegisterType<ConnectivityImplementation>().As<IConnectivity>().SingleInstance();
+            containerBuilder.RegisterType<MainThreadImplementation>().As<IMainThread>().SingleInstance();
 
             containerBuilder.RegisterType<App>().AsSelf().SingleInstance();
+            containerBuilder.RegisterType<MessageService>().AsSelf().SingleInstance();
 
             var appAssembly = typeof(App).GetTypeInfo().Assembly;
             containerBuilder.RegisterAssemblyTypes(appAssembly)
@@ -64,7 +64,7 @@ namespace ProductsApp.Services
 
             navigationHelper.InitViewModelNavigation(viewModelAssembly);
 
-            IProductFakeApi productApiClient = RestService.For<IProductFakeApi>("https://fakestoreapi.com", new(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings())));
+            IProductFakeApi productApiClient = RestService.For<IProductFakeApi>(ApiService.UserInitiated, settings: new(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings())));
 
             containerBuilder.RegisterInstance(productApiClient).SingleInstance();
 
